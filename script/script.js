@@ -5,26 +5,37 @@ window.addEventListener('DOMContentLoaded', function () {
   function countTimer(deadline) {
     let timerHours = document.querySelector('#timer-hours'),
       timerMinutes = document.querySelector('#timer-minutes'),
-      timerSeconds = document.querySelector('#timer-seconds');
+      timerSeconds = document.querySelector('#timer-seconds'),
+      dateStop = new Date(deadline);
 
-    function getTimeRemaining() {
-      let dateStop = new Date(deadline).getTime(),
-        dateNow = new Date().getTime(),
+    function getNewDateStop(deadline) {
+      let NewDateStop = new Date();
+      NewDateStop.setDate(deadline.getDate() + 1);
+      dateStop = NewDateStop.getTime();
+      return dateStop;
+
+    }
+
+    function getTimeRemaining(deadline) {
+      let dateNow = new Date().getTime(),
         timeRemaining = (dateStop - dateNow) / 1000,
         seconds = Math.floor(timeRemaining % 60).toString().padStart(2, "0"),
         minutes = Math.floor((timeRemaining / 60) % 60).toString().padStart(2, "0"),
         hours = Math.floor((timeRemaining / 60 / 60) % 24).toString().padStart(2, "0"),
         day = Math.floor(timeRemaining / 60 / 60 / 24).toString().padStart(2, "0");
       if (timeRemaining <= 0) {
-        seconds = '00';
         hours = '00';
         minutes = '00';
+        seconds = '00';
+        getNewDateStop(dateStop)
+        getTimeRemaining();
       }
 
       return { timeRemaining, hours, minutes, seconds, };
     }
 
-    function updateCloack() {
+
+    function updateCloack(deadline) {
       let timer = getTimeRemaining()
 
       timerHours.textContent = timer.hours;
@@ -35,7 +46,7 @@ window.addEventListener('DOMContentLoaded', function () {
     setInterval(updateCloack, 1000);
   }
 
-  countTimer('23 february 2020');
+  countTimer('21 february 2020 11:30:30');
 
   //меню
   const toggleMenu = () => {
