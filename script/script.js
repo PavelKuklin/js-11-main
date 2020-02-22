@@ -38,30 +38,76 @@ window.addEventListener('DOMContentLoaded', function () {
   countTimer('23 february 2020');
 
   //меню
-  const toggleMenu = () => {
+  const toggleMenu = (event) => {
 
-    const btnMenu = document.querySelector('.menu'),
-      menu = document.querySelector('menu'),
-      closeBtn = document.querySelector('.close-btn'),
-      menuItems = menu.querySelectorAll('ul>li');
+
+    const menu = document.querySelector('menu'),
+      menuItems = menu.querySelectorAll('ul>li'),
+      btnMenu = document.querySelector('.menu');
+
+    const animate = (selector, time) => {
+      let to = document.querySelector(selector),
+        start = performance.now(),
+        from = window.pageYOffset;
+      to = to.getBoundingClientRect().top;
+      requestAnimationFrame(function step(nowTime) {
+        let progress = ((nowTime - start) / time);
+        window.scrollTo(0, from + to * progress | 0);
+        if (1 > progress) requestAnimationFrame(step);
+      });
+    };
 
     const handlerMenu = () => {
       menu.classList.toggle('active-menu');
     };
 
-    btnMenu.addEventListener('click', () => {
-      handlerMenu();
-
+    btnMenu.addEventListener('click', (event) => {
+      let target = event.target;
+      if (target.closest('.menu')) {
+        handlerMenu();
+      }
     });
 
-    closeBtn.addEventListener('click', () => {
-      handlerMenu();
+    menu.addEventListener('click', (event) => {
+      let target = event.target;
+
+      if (target.classList.contains('close-btn')) {
+        handlerMenu();
+      } else if (target.closest('LI>a')) {
+        event.preventDefault();
+        let targetAttribute = target.getAttribute('href');
+        animate(targetAttribute, 1000);
+
+      }
     });
 
-    menuItems.forEach(element => {
-      element.addEventListener('click', handlerMenu)
-    })
   };
+
+  //кнопка в шапке
+  const getSecondSection = () => {
+    const btnToSecondSection = document.querySelector('img[src="images/scroll.svg"]');
+
+    const animate = (selector, time) => {
+      let to = document.querySelector(selector),
+        start = performance.now(),
+        from = window.pageYOffset;
+      to = to.getBoundingClientRect().top;
+      requestAnimationFrame(function step(nowTime) {
+        let progress = ((nowTime - start) / time);
+        window.scrollTo(0, from + to * progress | 0);
+        if (1 > progress) requestAnimationFrame(step);
+      });
+    };
+
+    btnToSecondSection.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      let target = event.target.closest('a').getAttribute('href');
+      animate(target, 1000);
+    })
+
+  };
+  getSecondSection();
 
   toggleMenu();
 
@@ -156,5 +202,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
   tabs();
 
-  //
+
+
 });
