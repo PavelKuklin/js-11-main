@@ -74,9 +74,15 @@ window.addEventListener('DOMContentLoaded', function () {
       body = document.querySelector('body'),
       popup = document.querySelector('.popup');
 
+    function cancelPopup() {
+      popup.style.display = 'none';
+      popupContent.style.cssText = `top = 0px; left = 0px`;
+    }
+
     function anim() {
       if (event.target.classList.contains('popup-btn')) {
         popup.style.display = 'inline-block';
+
         let windowHeight = document.documentElement.clientHeight,
           popupHeight = (popupContent.clientHeight),
           popupVertyPosition = (Math.floor((windowHeight - popupHeight) / 2)),
@@ -86,16 +92,22 @@ window.addEventListener('DOMContentLoaded', function () {
           timeStart = performance.now(),
           fromX = 0,
           fromY = 0;
+
         popupContent.style.cssText = `top = ${fromX}px; left = ${fromY}px`;
 
         requestAnimationFrame(function step(curtime) {
           let progress = (curtime - timeStart) / 1000;
           popupContent.style.cssText = `top:${Math.floor(fromY + (popupVertyPosition * progress))}px; left: ${Math.floor(fromX + popupGorizOisition * progress)}px`
           if (1 > progress) requestAnimationFrame(step);
+
         });
+
       } else if (event.target === popupClose) {
-        popup.style.display = 'none';
-        popupContent.style.cssText = `top = 0px; left = 0px`;
+        cancelPopup();
+
+      } else if (event.target === popup) {
+        cancelPopup();
+
       }
 
     }
