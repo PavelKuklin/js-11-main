@@ -77,6 +77,7 @@ window.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         let targetAttribute = target.getAttribute('href');
         animate(targetAttribute, 1000);
+        handlerMenu();
 
       }
     });
