@@ -67,37 +67,42 @@ window.addEventListener('DOMContentLoaded', function () {
 
   //popUP
   const togglePopUp = () => {
-    const popup = document.querySelector('.popup'),
-      popupBtn = document.querySelectorAll('.popup-btn'),
+
+    const popupBtn = document.querySelectorAll('.popup-btn'),
       popupClose = document.querySelector('.popup-close'),
-      popupContent = document.querySelector('.popup-content')
-    let top = 10;
-    //анимация popup
-    const popupAnimation = () => {
-      if (document.documentElement.clientWidth > 768) {
-        if (top < 35) {
-          top++;
-          popupContent.style.cssText = `top: ${top}%;`
-          requestAnimationFrame(popupAnimation);
-        } else {
-          cancelAnimationFrame(popupAnimation);
-          top = 10;
-        }
+      popupContent = document.querySelector('.popup-content'),
+      body = document.querySelector('body'),
+      popup = document.querySelector('.popup');
+
+    function anim() {
+      if (event.target.classList.contains('popup-btn')) {
+        popup.style.display = 'inline-block';
+        let windowHeight = document.documentElement.clientHeight,
+          popupHeight = (popupContent.clientHeight),
+          popupVertyPosition = (Math.floor((windowHeight - popupHeight) / 2)),
+          windowWidth = document.documentElement.clientWidth,
+          popupWidth = popupContent.clientWidth,
+          popupGorizOisition = ((windowWidth - popupWidth) / 2 | 0),
+          timeStart = performance.now(),
+          fromX = 0,
+          fromY = 0;
+        popupContent.style.cssText = `top = ${fromX}px; left = ${fromY}px`;
+
+        requestAnimationFrame(function step(curtime) {
+          let progress = (curtime - timeStart) / 1000;
+          popupContent.style.cssText = `top:${Math.floor(fromY + (popupVertyPosition * progress))}px; left: ${Math.floor(fromX + popupGorizOisition * progress)}px`
+          if (1 > progress) requestAnimationFrame(step);
+        });
+      } else if (event.target === popupClose) {
+        popup.style.display = 'none';
+        popupContent.style.cssText = `top = 0px; left = 0px`;
       }
-    };
-    popupBtn.forEach(item => {
-      item.addEventListener('click', () => {
-        popup.style.display = 'block';
-        popupAnimation();
 
-      });
-    });
+    }
 
-    popupClose.addEventListener('click', () => {
-      popup.style.display = 'none';
-
-    });
+    body.addEventListener('click', anim);
   };
-
   togglePopUp();
+
+  //
 });
