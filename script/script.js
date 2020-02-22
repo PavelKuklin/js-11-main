@@ -37,25 +37,25 @@ window.addEventListener('DOMContentLoaded', function () {
 
   countTimer('23 february 2020');
 
+  //анимация 
+  const animate = (selector, time) => {
+    let to = document.querySelector(selector),
+      start = performance.now(),
+      from = window.pageYOffset;
+    to = to.getBoundingClientRect().top;
+    requestAnimationFrame(function step(nowTime) {
+      let progress = ((nowTime - start) / time);
+      window.scrollTo(0, from + to * progress | 0);
+      if (1 > progress) requestAnimationFrame(step);
+    });
+  };
+
   //меню
   const toggleMenu = (event) => {
-
 
     const menu = document.querySelector('menu'),
       menuItems = menu.querySelectorAll('ul>li'),
       btnMenu = document.querySelector('.menu');
-
-    const animate = (selector, time) => {
-      let to = document.querySelector(selector),
-        start = performance.now(),
-        from = window.pageYOffset;
-      to = to.getBoundingClientRect().top;
-      requestAnimationFrame(function step(nowTime) {
-        let progress = ((nowTime - start) / time);
-        window.scrollTo(0, from + to * progress | 0);
-        if (1 > progress) requestAnimationFrame(step);
-      });
-    };
 
     const handlerMenu = () => {
       menu.classList.toggle('active-menu');
@@ -87,18 +87,6 @@ window.addEventListener('DOMContentLoaded', function () {
   //кнопка в шапке
   const getSecondSection = () => {
     const btnToSecondSection = document.querySelector('img[src="images/scroll.svg"]');
-
-    const animate = (selector, time) => {
-      let to = document.querySelector(selector),
-        start = performance.now(),
-        from = window.pageYOffset;
-      to = to.getBoundingClientRect().top;
-      requestAnimationFrame(function step(nowTime) {
-        let progress = ((nowTime - start) / time);
-        window.scrollTo(0, from + to * progress | 0);
-        if (1 > progress) requestAnimationFrame(step);
-      });
-    };
 
     btnToSecondSection.addEventListener('click', (event) => {
       event.preventDefault();
