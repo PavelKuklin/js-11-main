@@ -1,6 +1,5 @@
-window.addEventListener('DOMContentLoaded', function () {
-  'use strict'
-
+'use strict'
+window.addEventListener('DOMContentLoaded', () => {
   //Timer
   function countTimer(deadline) {
     let timerHours = document.querySelector('#timer-hours'),
@@ -296,6 +295,24 @@ window.addEventListener('DOMContentLoaded', function () {
 
   slider();
 
+  //калькулятор 
+  const calc = () => {
+    const calcBlock = document.querySelector('.calc-block'),
+      calcInput = document.querySelectorAll('.calc-item');
 
+    calcInput.forEach(item => {
+      if (item.getAttribute('type' === 'number')) {
+        item.addEventListener('keypress', () => {
+          event.preventDefault();
+          let currentValue = item.value;
+
+          currentValue = currentValue.replace(/\d/, '');
+          item.value = currentValue;
+        });
+      }
+    });
+  };
+
+  calc();
 
 });
