@@ -316,7 +316,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   calc();
 
-  //наша команда
+  //наша команда.
 
   const team = () => {
     const comrad = document.querySelectorAll('.command__photo'),
