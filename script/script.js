@@ -328,20 +328,20 @@ window.addEventListener('DOMContentLoaded', () => {
       }
       totalValue.textContent = total;
 
-      // if (total > 0) {
-      //   let newTotal = 0;
-      //   const step = () => {
-      //     setTimeout(() => {
-      //       newTotal++;
-      //       totalValue.textContent = newTotal;
-      //       if (newTotal < total) {
-      //         step();
-      //       }
-      //     }, 0.0001);
-      //   };
-      //   step();
-      //}
-      //
+      if (total > 0) {
+        let newTotal = 0;
+        const step = () => {
+          setTimeout(() => {
+            newTotal++;
+            totalValue.textContent = newTotal;
+            if (newTotal < total) {
+              step();
+            }
+          }, 0.0001);
+        };
+        step();
+      }
+
     };
 
 
