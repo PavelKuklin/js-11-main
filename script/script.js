@@ -398,15 +398,16 @@ window.addEventListener('DOMContentLoaded', () => {
     team();
 
     //send ajax form
-    const sendForm = () => {
+    const sendForm = (selector) => {
         const errorMessage = 'Что то пошло не так...',
             loadMessage = 'Загрузка',
             successMessage = 'Спасибо, мы скоро с вами свяжемся';
 
-        const form = document.getElementById('form1');
+        const form = document.getElementById(selector);
 
         const statusMessage = document.createElement('div');
-        statusMessage.style.cssText = `font-size: 2rem;`
+
+        statusMessage.style.cssText = `font-size: 2rem; color: white;`;
 
         form.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -424,6 +425,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 statusMessage.textContent = errorMessage;
                 console.log(error);
             });
+            form.reset();
         });
 
         const postData = (body, outputData, errorData) => {
@@ -442,9 +444,40 @@ window.addEventListener('DOMContentLoaded', () => {
             request.open('POST', './server.php');
             request.setRequestHeader('Content-Type', 'application/json');
             request.send(JSON.stringify(body));
-        }
+        };
+
     };
 
-    sendForm();
+    sendForm('form1');
+    sendForm('form2');
+    sendForm('form3');
 
+    //валидатор
+    const validForm = (selector) => {
+        const form = document.getElementById(selector);
+        form.addEventListener('keypress', (event) => {
+            let target = event.target;
+
+            if (target.getAttribute('name') === 'user_phone') {
+                event.preventDefault();
+                let reg = /^[0-9+]+$/i;
+                if (reg.test(event.key)) {
+                    target.value += event.key;
+                }
+            }
+
+            if (target.getAttribute('name') === 'user_name' || target.getAttribute('name') === 'user_message') {
+                event.preventDefault();
+                let reg = /^[а-яё ]+$/i;
+                if (reg.test(event.key)) {
+                    target.value += event.key;
+                }
+            }
+
+        });
+    }
+
+    validForm('form1');
+    validForm('form2');
+    validForm('form3');
 });
