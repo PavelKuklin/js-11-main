@@ -399,9 +399,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //send ajax form
     const sendForm = (selector) => {
-        const errorMessage = 'Что то пошло не так...',
-            loadMessage = 'Загрузка',
-            successMessage = 'Спасибо, мы скоро с вами свяжемся';
+        const errorMessage = `<img src='images/check.png'>`,
+            loadMessage = `<img src='images/loader.png'>`,
+            successMessage = `<img src='images/tick.png'>`;
 
         const form = document.getElementById(selector);
 
@@ -412,7 +412,7 @@ window.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             form.append(statusMessage);
-            statusMessage.textContent = loadMessage;
+            statusMessage.innerHTML = loadMessage;
 
             const formData = new FormData(form);
             let body = {};
@@ -420,9 +420,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 body[val[0]] = val[1];
             }
             postData(body, () => {
-                statusMessage.textContent = successMessage;
+                statusMessage.innerHTML = successMessage;
             }, (error) => {
-                statusMessage.textContent = errorMessage;
+                statusMessage.innerHTML = errorMessage;
                 console.log(error);
             });
             form.reset();
