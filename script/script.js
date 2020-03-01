@@ -325,23 +325,28 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (typeValue && squareValue) {
                 total = price * typeValue * squareValue * countValue * dayValue;
-            }
-            totalValue.textContent = total;
-
-            if (total > 0) {
-                let newTotal = 0;
-                const step = () => {
-                    setTimeout(() => {
-                        newTotal++;
-                        totalValue.textContent = newTotal;
-                        if (newTotal < total) {
-                            step();
-                        }
-                    });
-                };
-                step();
+                if (total > 0) {
+                    animateRes(+totalValue.textContent, Math.ceil(total));
+                }
             }
 
+            function animateTotal(draw, duration = 500) {
+                let start = performance.now();
+                requestAnimationFrame(function step(time) {
+                    let progress = ((time - start) / duration);
+                    if (progress > 1) progress = 1;
+                    draw(progress);
+                    if (progress < 1) requestAnimationFrame(step);
+                });
+            }
+
+            function animateRes(start, total) {
+                let from = start,
+                    to = total;
+                animateTotal((progress) => {
+                    totalValue.textContent = Math.ceil((to - from) * progress + from);
+                })
+            }
         };
 
 
@@ -397,17 +402,5 @@ window.addEventListener('DOMContentLoaded', () => {
 
     team();
 
-    //валидатор
-    const validator = () => {
-        const valid = new Validator({
-            selector: '#form1',
-            pattern: {},
-            method: {},
-        });
-
-        valid.init();
-    };
-
-    validator();
 
 });
