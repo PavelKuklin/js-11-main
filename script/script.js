@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', () => {
         setInterval(updateCloack, 1000);
     }
 
-    countTimer('23 february 2020');
+    countTimer('23 may 2020');
 
     //анимация 
     const animate = (selector, time) => {
@@ -411,30 +411,38 @@ window.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             form.append(statusMessage);
+            statusMessage.textContent = loadMessage;
 
-            const request = new XMLHttpRequest();
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-Type', 'multipart/form-data');
             const formData = new FormData(form);
-            request.send(formData);
-
-
-            request.addEventListener('readystatechange', (event) => {
-                statusMessage.textContent = loadMessage;
-
-                if (request.readyState !== 4) {
-                    return;
-                }
-
-                if (request.status === 200) {
-                    statusMessage.textContent = successMessage;
-                } else {
-                    statusMessage.textContent = errorMessage;
-                }
+            let body = {};
+            for (let val of formData.entries()) {
+                body[val[0]] = val[1];
+            }
+            postData(body, () => {
+                statusMessage.textContent = successMessage;
+            }, (error) => {
+                statusMessage.textContent = errorMessage;
+                console.log(error);
             });
         });
 
+        const postData = (body, outputData, errorData) => {
+            const request = new XMLHttpRequest();
+            request.addEventListener('readystatechange', (event) => {
+                if (request.readyState !== 4) {
+                    return;
+                }
+                if (request.status === 200) {
+                    outputData();
+                } else {
+                    errorData(request.status);
+                }
+            });
 
+            request.open('POST', './server.php');
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.send(JSON.stringify(body));
+        }
     };
 
     sendForm();
