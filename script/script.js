@@ -419,33 +419,35 @@ window.addEventListener('DOMContentLoaded', () => {
             for (let val of formData.entries()) {
                 body[val[0]] = val[1];
             }
-            postData(body, () => {
+
+            const postData = (body) => {
+                return new Promise((reselve, reject) => {
+                    const request = new XMLHttpRequest();
+                    request.addEventListener('readystatechange', (event) => {
+                        if (request.readyState !== 4) {
+                            return;
+                        }
+                        if (request.status === 200) {
+                            reselve();
+                        } else {
+                            reject(request.status);
+                        }
+                    });
+
+                    request.open('POST', './server.php');
+                    request.setRequestHeader('Content-Type', 'application/json');
+                    request.send(JSON.stringify(body));
+                });
+            };
+
+            postData(body).then(() => {
                 statusMessage.innerHTML = successMessage;
-            }, (error) => {
+            }).catch(() => {
                 statusMessage.innerHTML = errorMessage;
-                console.log(error);
+            }).finally(() => {
+                form.reset();
             });
-            form.reset();
         });
-
-        const postData = (body, outputData, errorData) => {
-            const request = new XMLHttpRequest();
-            request.addEventListener('readystatechange', (event) => {
-                if (request.readyState !== 4) {
-                    return;
-                }
-                if (request.status === 200) {
-                    outputData();
-                } else {
-                    errorData(request.status);
-                }
-            });
-
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-Type', 'application/json');
-            request.send(JSON.stringify(body));
-        };
-
     };
 
     sendForm('form1');
