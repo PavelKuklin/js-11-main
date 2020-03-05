@@ -25,14 +25,13 @@ const togglePopUp = () => {
                 fromY = 0;
 
             popupContent.style.cssText = `top = ${fromX}px; left = ${fromY}px`;
-
-            requestAnimationFrame(function step(curtime) {
-                let progress = (curtime - timeStart) / 1000;
-                popupContent.style.cssText = `top:${Math.floor(fromY + (popupVertyPosition * progress))}px; left: ${Math.floor(fromX + popupGorizOisition * progress)}px`
-                if (1 > progress) requestAnimationFrame(step);
-
-            });
-
+            if (window.innerWidth > 768) {
+                requestAnimationFrame(function step(curtime) {
+                    let progress = (curtime - timeStart) / 1000;
+                    popupContent.style.cssText = `top:${Math.floor(fromY + (popupVertyPosition * progress))}px; left: ${Math.floor(fromX + popupGorizOisition * progress)}px`
+                    if (1 > progress) requestAnimationFrame(step);
+                });
+            }
         }
 
         popup.addEventListener('click', (event) => {

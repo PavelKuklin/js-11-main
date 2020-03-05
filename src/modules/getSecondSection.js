@@ -3,10 +3,13 @@ const getSecondSection = () => {
     const btnToSecondSection = document.querySelector('img[src="images/scroll.svg"]');
 
     btnToSecondSection.addEventListener('click', (event) => {
-        event.preventDefault();
+        if (window.innerWidth > 768) {
+            event.preventDefault();
 
-        let target = event.target.closest('a').getAttribute('href');
-        animate(target, 1000);
+            let target = event.target.closest('a').getAttribute('href');
+            animate(target, 1000);
+        }
+
     })
 
 };

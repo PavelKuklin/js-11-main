@@ -17,9 +17,11 @@ const toggleMenu = (event) => {
         } else if (target.classList.contains('close-btn')) {
             handlerMenu();
         } else if (target.closest('LI>a')) {
-            event.preventDefault();
-            let targetAttribute = target.getAttribute('href');
-            animate(targetAttribute, 1000);
+            if ((window.innerWidth > 768)) {
+                event.preventDefault();
+                let targetAttribute = target.getAttribute('href');
+                animate(targetAttribute, 1000);
+            }
             handlerMenu();
         } else if (menu.matches('.active-menu') && !target.closest('menu')) {
             handlerMenu();
