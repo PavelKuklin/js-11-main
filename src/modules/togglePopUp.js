@@ -5,6 +5,10 @@ const togglePopUp = () => {
         popup = document.querySelector('.popup');
 
     function cancelPopup() {
+        const successImage = document.querySelector('.statusForm');
+        if (successImage) {
+            successImage.remove();
+        }
         popup.style.display = 'none';
         popupContent.style.cssText = `top = 0px; left = 0px`;
     }
@@ -38,6 +42,8 @@ const togglePopUp = () => {
             let target = event.target;
             if (target.classList.contains('popup-close')) {
                 cancelPopup();
+
+
             } else {
                 target = target.closest('.popup-content');
                 if (!target) cancelPopup();

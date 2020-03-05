@@ -6,6 +6,7 @@ const sendForm = (selector) => {
     const form = document.getElementById(selector);
 
     const statusMessage = document.createElement('div');
+    statusMessage.classList.add('statusForm');
 
     statusMessage.style.cssText = `font-size: 2rem; color: white;`;
 
