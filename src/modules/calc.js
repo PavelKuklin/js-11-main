@@ -13,9 +13,21 @@ const calc = (price = 100) => {
             dayValue = 1;
         const typeValue = calcType.options[calcType.selectedIndex].value,
             squareValue = +calcSquare.value;
+        if (+calcSquare.value === 0 || +calcSquare.value === '') {
+            countValue = 0;
+            dayValue = 0;
+            total = 0;
+            totalValue.textContent = 0;
+        }
         if (calcCount.value > 1) {
             countValue += (+calcCount.value - 1) / 10;
         }
+        if (squareValue === 0 || !squareValue) {
+            value = 0;
+            totalValue.innerHTML = 0;
+        }
+
+
 
         if (calcDay.value && calcDay.value > 0 && calcDay.value < 5) {
             dayValue *= 2;
