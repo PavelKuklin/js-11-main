@@ -11,6 +11,7 @@ import calc from './modules/calc';
 import team from './modules/team';
 import sendForm from './modules/sendForm';
 import validForm from './modules/validator';
+import newSlider from './modules/carousel';
 
 countTimer('23 may 2020');
 getSecondSection();
@@ -26,3 +27,4 @@ sendForm('form3');
 validForm('form1');
 validForm('form2');
 validForm('form3');
+newSlider();
